@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, Response
 from PIL import Image
 from io import BytesIO
 import urllib.request
@@ -12,8 +12,14 @@ def get_image(species):
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return "<p>Go to <a href='/image'>here</a>"
+
 @app.route("/image")
 def image():
+    if "a" not in request.args or "b" not in request.args:
+        return Response(status=404)
     img1 = get_image(int(request.args["a"])).transpose(Image.FLIP_LEFT_RIGHT)
     img2 = get_image(int(request.args["b"]))
     img = Image.new("RGBA", (360, 180))
@@ -25,4 +31,4 @@ def image():
     fp.seek(0)
     return send_file(fp, mimetype="image/png")
 
-app.run(host="0.0.0.0", port=5000)
+app.run(threaded=True, port=5000)
