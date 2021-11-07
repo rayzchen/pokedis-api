@@ -31,4 +31,5 @@ def image():
     fp.seek(0)
     return send_file(fp, mimetype="image/png")
 
-app.run(threaded=True, port=5000)
+if __name__ == "__main__":
+    app.run(threaded=True, port=5000)
