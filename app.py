@@ -25,3 +25,4 @@ def image():
     fp.seek(0)
     return send_file(fp, mimetype="image/png")
 
+app.run(host="0.0.0.0", port=5000)
